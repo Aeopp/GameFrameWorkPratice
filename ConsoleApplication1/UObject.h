@@ -26,5 +26,9 @@ public :
 	void Render(const float DeltaTime);
 
 	std::vector<std::weak_ptr<UObject>> Components;
+
+	inline bool operator!=(const UObject& Rhs) const & noexcept {
+		return this->_ID != Rhs._ID;
+	}
 };
 

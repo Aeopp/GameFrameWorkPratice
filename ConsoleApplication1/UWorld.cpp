@@ -1,12 +1,15 @@
 #include "UWorld.h"
 #include "UObject.h"
+
 void UWorld::Render(const float DeltaTime)
 {
 
-}
+};
+
 
 void UWorld::Frame(const float DeltaTime)
 {
+
 };
 
 std::vector<std::weak_ptr<class UObject>> UWorld::GetActors()

@@ -1,0 +1,4 @@
+﻿  wMain.cpp
+D:\GameFrameWorkPratice\ConsoleApplication1\UWorld.h(11,52): warning C4099: 'std::default_delete<UWorld>': 처음에는 'struct'을(를) 사용하여 형식 이름을 표시했는데 이제는 'class'을(를) 사용하여 표시합니다.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\memory(760): message : 'std::default_delete<UWorld>' 선언을 참조하십시오.
+  ConsoleApplication1.vcxproj -> D:\GameFrameWorkPratice\ConsoleApplication1\Debug\ConsoleApplication1.exe

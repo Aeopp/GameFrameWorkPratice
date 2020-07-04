@@ -4,7 +4,8 @@
 class AActor : public UObject
 {
 public :
-	void Frame(const float DeltaTime);
-	void Render(const float DeltaTime);
+	AActor();
+	void Frame(const float DeltaTime)   override ;
+	void Render(const float DeltaTime)  override;
 };
 

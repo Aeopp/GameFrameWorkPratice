@@ -6,6 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include <functional>
+#include <type_traits>
 using namespace std;
 
 template<typename t=void>
@@ -45,11 +46,49 @@ void foo(c& a,f F) {
 		Func(*iter);
 	}
 };
+class q {
+public:
+	q(int) {};
+
+	float bar() {
+
+	};
+
+	int a = 11;
+	void foo() {
+		std::cout << a;
+
+	}
+};
+struct QWE{
+	float operator()(int) { return 1.f; };
+};
+
+class asd{
+public:
+	void foo() { };
+};
+
+template <class _Callable, class... _Args>
+using invoke_result_t = typename _Invoke_traits<void, _Callable, _Args...>::type;
 
 int main()
 {
-	std::vector<a<void>> q;
-	q.push_back(b{});
+
+	std::shared_ptr<q> s= std::make_shared<q>(5);
+
+	std::shared_ptr<q> d = s;
+	auto c = d;
+
+	auto dd = new q(1);
+
+	
+	d->foo();
+	c->foo();
+
+	
+
+
 }
 
 // 프로그램 실행: <Ctrl+F5> 또는 [디버그] > [디버깅하지 않고 시작] 메뉴

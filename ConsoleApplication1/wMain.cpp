@@ -17,10 +17,9 @@ int main() {
 
 		//Compute Time.............
 		std::this_thread::sleep_for(1s);
-
+		
 		if (i == 0) {
-			auto PlayerRef = Player.lock();
-			PlayerRef->Test();
+			WORLD.DeleteObj(Player.lock()->GetID());
 		}
 	};
 }

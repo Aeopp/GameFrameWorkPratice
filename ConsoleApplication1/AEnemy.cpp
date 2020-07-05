@@ -11,7 +11,6 @@ AEnemy::AEnemy()
 	auto Collision = _Collision.lock();
 	auto Mesh = _Mesh.lock();
 
-
 	Collision->SetOwnerID((this->GetID()));
 	Mesh->SetOwnerID((this->GetID()));
 }

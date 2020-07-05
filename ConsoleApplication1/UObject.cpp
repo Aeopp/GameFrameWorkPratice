@@ -12,6 +12,4 @@ bool UObject::IsOwner() & noexcept
 		SetOwner(IsOwner);
 		return true;
 	};
-
-
 }

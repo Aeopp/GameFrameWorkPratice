@@ -2,11 +2,13 @@
 #include "UWorld.h"
 class UObject abstract
 {
+public:
+	using IDType = uint32_t;
 	friend class UWorld;
 private:
 	using OwnerType = std::weak_ptr<class UObject>;
 protected:
-	using IDType = uint32_t;
+	
 private:
 	OwnerType _Owner {};
 	IDType _OwnerID{};

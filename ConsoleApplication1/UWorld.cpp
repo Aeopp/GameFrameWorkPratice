@@ -5,28 +5,12 @@
 #include "AActor.h"
 #include "UCollision.h"
 
-void UWorld::Render(  )
+void UWorld::Render()
 {
-
 	ObjectLogic(_Meshs, decltype(_Meshs)::value_type::element_type::GetLogicFunc());
-
-	/*for (auto _Mesh = std::begin(_Meshs); _Mesh != std::end(_Meshs);) {
-		if (auto _MeshRef = _Mesh->lock();
-			_Mesh->expired() == false) {
-			_MeshRef->Render();
-		}
-		else if (_MeshRef->IsOwner() == false) {
-			_GarBageIDs.insert(_MeshRef->GetID());
-		}
-		else if (_Mesh->expired() == true) {
-			_Mesh = _Meshs.erase(_Mesh);
-			continue;
-		}
-		std::advance(_Mesh, 1);
-	};*/
 };
 
-std::weak_ptr<class UObject> UWorld::FindObject(const ObjectID TargetID) {
+std::weak_ptr<class UObject> UWorld::FindObject(const ObjectIDType TargetID) {
 
 	auto iter = std::find_if(std::begin(_Objects), std::end(_Objects),
 		[TargetID](const decltype(_Objects)::value_type& Target) {
@@ -35,13 +19,12 @@ std::weak_ptr<class UObject> UWorld::FindObject(const ObjectID TargetID) {
 			};
 			return Target->GetID() == TargetID; }
 	);
-	
 	return *iter;
 };
 void UWorld::DeleteObj(uint32_t TargetID) & noexcept {
 
-	 auto IsFind{ [TargetID](const _ObjectType& Lhs)
-	{return Lhs->_ID == TargetID; } };
+	auto IsFind{ [TargetID](const _ObjectType& Lhs)
+   {return Lhs->_ID == TargetID; } };
 
 	auto Target = std::find_if(std::begin(_Objects), std::end(_Objects),
 		std::move_if_noexcept(IsFind));
@@ -49,9 +32,10 @@ void UWorld::DeleteObj(uint32_t TargetID) & noexcept {
 	if (Target != std::end(_Objects)) {
 		_Objects.erase(Target);
 	}
+
 };
 
-void UWorld::Frame(  )
+void UWorld::ActorLogic()
 {
 	auto ActorFunc = std::mem_fn(AActor::GetLogicFunc());
 
@@ -66,31 +50,17 @@ void UWorld::Frame(  )
 		}
 		std::advance(_Actor, 1);
 	};
+};
 
-
+void UWorld::Frame(  )
+{
+	ActorLogic();
 	Collision();
-
-
-	/*for (auto _Collision = std::begin(_Collisions); _Collision != std::end(_Collisions);) {
-		if (auto _CollisionRef = _Collision->lock();
-			_Collision->expired() == false) {
-			_CollisionRef->Frame();
-		}
-		else if (_CollisionRef->IsOwner() == false) {
-			_GarBageIDs.insert(_CollisionRef->GetID());
-		}
-		else if (_Collision->expired() == true) {
-			_Collision = _Collisions.erase(_Collision);
-			continue;
-		}
-		std::advance(_Collision, 1);
-	};*/
 }
 void UWorld::Collision()
 {
 	ObjectLogic(_Collisions, decltype(_Collisions)::value_type::element_type::GetLogicFunc());
-}
-;
+};
 
 std::vector<std::weak_ptr<class UObject>> UWorld::GetObjects()
 {

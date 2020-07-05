@@ -1,4 +1,24 @@
-﻿  wMain.cpp
+﻿  AActor.cpp
 D:\GameFrameWorkPratice\ConsoleApplication1\UWorld.h(11,52): warning C4099: 'std::default_delete<UWorld>': 처음에는 'struct'을(를) 사용하여 형식 이름을 표시했는데 이제는 'class'을(를) 사용하여 표시합니다.
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\memory(760): message : 'std::default_delete<UWorld>' 선언을 참조하십시오.
-  ConsoleApplication1.vcxproj -> D:\GameFrameWorkPratice\ConsoleApplication1\Debug\ConsoleApplication1.exe
+  UCollision.cpp
+D:\GameFrameWorkPratice\ConsoleApplication1\UWorld.h(11,52): warning C4099: 'std::default_delete<UWorld>': 처음에는 'struct'을(를) 사용하여 형식 이름을 표시했는데 이제는 'class'을(를) 사용하여 표시합니다.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\memory(760): message : 'std::default_delete<UWorld>' 선언을 참조하십시오.
+  UMesh.cpp
+D:\GameFrameWorkPratice\ConsoleApplication1\UWorld.h(11,52): warning C4099: 'std::default_delete<UWorld>': 처음에는 'struct'을(를) 사용하여 형식 이름을 표시했는데 이제는 'class'을(를) 사용하여 표시합니다.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\memory(760): message : 'std::default_delete<UWorld>' 선언을 참조하십시오.
+  UObject.cpp
+D:\GameFrameWorkPratice\ConsoleApplication1\UWorld.h(11,52): warning C4099: 'std::default_delete<UWorld>': 처음에는 'struct'을(를) 사용하여 형식 이름을 표시했는데 이제는 'class'을(를) 사용하여 표시합니다.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\memory(760): message : 'std::default_delete<UWorld>' 선언을 참조하십시오.
+  wMain.cpp
+D:\GameFrameWorkPratice\ConsoleApplication1\UWorld.h(11,52): warning C4099: 'std::default_delete<UWorld>': 처음에는 'struct'을(를) 사용하여 형식 이름을 표시했는데 이제는 'class'을(를) 사용하여 표시합니다.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\memory(760): message : 'std::default_delete<UWorld>' 선언을 참조하십시오.
+D:\GameFrameWorkPratice\ConsoleApplication1\UWorld.h(26,2): error C2059: 구문 오류: '=='
+D:\GameFrameWorkPratice\ConsoleApplication1\wMain.cpp(9): message : 컴파일되는 함수 템플릿 인스턴스화 'void UWorld::Create<AActor,>(void)'에 대한 참조를 확인하세요.
+D:\GameFrameWorkPratice\ConsoleApplication1\UWorld.h(26,2): error C2143: 구문 오류: ';'이(가) '{' 앞에 없습니다.
+D:\GameFrameWorkPratice\ConsoleApplication1\UWorld.h(26,2): error C2181: if와 짝을 이루지 않는 잘못된 else문입니다.
+D:\GameFrameWorkPratice\ConsoleApplication1\UWorld.h(37,8): error C2059: 구문 오류: '}'
+  UWorld.cpp
+D:\GameFrameWorkPratice\ConsoleApplication1\UWorld.h(11,52): warning C4099: 'std::default_delete<UWorld>': 처음에는 'struct'을(를) 사용하여 형식 이름을 표시했는데 이제는 'class'을(를) 사용하여 표시합니다.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\memory(760): message : 'std::default_delete<UWorld>' 선언을 참조하십시오.
+  코드를 생성하고 있습니다...

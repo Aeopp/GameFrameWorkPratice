@@ -4,7 +4,10 @@
 class UCollision : public UObject
 {
 public:
-	void Frame(const float DeltaTime)override;
-	void Render(const float DeltaTime)override;
+	void Collision();
+
+	static auto GetLogicFunc(){
+		return &UCollision::Collision;
+	}
 };
 

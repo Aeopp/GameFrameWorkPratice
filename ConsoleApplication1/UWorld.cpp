@@ -26,15 +26,29 @@ void UWorld::Render(  )
 	};*/
 };
 
+std::weak_ptr<class UObject> UWorld::FindObject(const ObjectID TargetID) {
+
+	auto iter = std::find_if(std::begin(_Objects), std::end(_Objects),
+		[TargetID](const decltype(_Objects)::value_type& Target) {
+			if (!(Target != nullptr)) {
+				throw std::exception();
+			};
+			return Target->GetID() == TargetID; }
+	);
+	
+	return *iter;
+};
 void UWorld::DeleteObj(uint32_t TargetID) & noexcept {
 
-	static auto IsFind{ [TargetID](const _ObjectType& Lhs)
+	 auto IsFind{ [TargetID](const _ObjectType& Lhs)
 	{return Lhs->_ID == TargetID; } };
 
 	auto Target = std::find_if(std::begin(_Objects), std::end(_Objects),
 		std::move_if_noexcept(IsFind));
 
-	_Objects.erase(Target);
+	if (Target != std::end(_Objects)) {
+		_Objects.erase(Target);
+	}
 };
 
 void UWorld::Frame(  )

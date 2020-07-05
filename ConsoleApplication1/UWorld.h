@@ -8,6 +8,8 @@ public:
 	using ObjectID = uint32_t;
 private:
 	using _ObjectType = std::shared_ptr<class UObject>;
+	template<typename ObjectType>
+	using _ObjectObserverType = std::weak_ptr<ObjectType>;
 	friend class std::unique_ptr<UWorld>::deleter_type;
 public:
 	void Render(  );
@@ -22,24 +24,27 @@ public:
 
 	std::set<ObjectID> _GarBageIDs;
 public:
+	std::weak_ptr<class UObject> FindObject(const ObjectID TargetID);
+
 	template<typename _MakeUObjectType,typename ...Types>
-	void Create(Types&&... Params) {
+	[[nodiscard]]  _ObjectObserverType<_MakeUObjectType> Create(Types&&... Params) {
 		auto _AddObject = std::shared_ptr<_MakeUObjectType>(
 			new _MakeUObjectType(
 				std::forward<Types>(Params)...));
 
 		_Objects.push_back(_AddObject);
-
 		
-		if constexpr (_MakeUObjectType == decltype(_Actors)::value_type::element_type) {
+		if constexpr (std::is_same_v< _MakeUObjectType, decltype(_Actors)::value_type::element_type>) {
 			_Actors.push_back(_AddObject);
 		}
-		else if constexpr (_MakeUObjectType == decltype(_Collisions)::value_type::element_type) {
+		else if constexpr (std::is_same_v< _MakeUObjectType, decltype(_Collisions)::value_type::element_type>) {
 			_Collisions.push_back(_AddObject);
 		}
-		else if constexpr (_MakeUObjectType == decltype(_Meshs)::value_type::element_type) {
+		else if constexpr (std::is_same_v< _MakeUObjectType, decltype(_Meshs)::value_type::element_type>) {
 			_Meshs.insert(_AddObject);
 		}
+
+		return _ObjectObserverType<_MakeUObjectType>{ _AddObject };
 	};
 
 	std::vector<std::weak_ptr<class UObject>> GetObjects();
@@ -68,12 +73,12 @@ private:
 				_Object->expired() == false) {
 				MemberFunction(*_ObjectRef);
 			}
-			else if (_ObjectRef->IsOwner() == false) {
-				_GarBageIDs.insert(_ObjectRef->GetID());
-			}
 			else if (_Object->expired() == true) {
 				_Object = Container.erase(_Object);
 				continue;
+			}
+			else if (_ObjectRef->IsOwner() == false) {
+				_GarBageIDs.insert(_ObjectRef->GetID());
 			}
 			std::advance(_Object, 1);
 		};

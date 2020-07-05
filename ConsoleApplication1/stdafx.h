@@ -13,6 +13,7 @@
 #include <map>
 #include <functional>
 
+
 #define TypePrint        TypePrint_Implementation(decltype(*this),this->_ID);
 
 #define TypePrint_Implementation(Type,ID) std::cout<<typeid(Type).name()<<std::endl<<__FUNCTION__ <<std::endl<<"ID : " << ID<<std::endl;

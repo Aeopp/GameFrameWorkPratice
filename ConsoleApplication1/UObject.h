@@ -9,6 +9,7 @@ protected:
 	using IDType = uint32_t;
 private:
 	OwnerType _Owner {};
+	IDType _OwnerID{};
 protected:
 	IDType _ID;
 private:
@@ -17,7 +18,7 @@ private:
 		//Set Up Body .......................................
 		//....................................................
 
-		return std::make_shared<UObject>(std::forward< Types>(Params)...);
+		return std::make_shared<UObject>(std::forward<Types>(Params)...);
 	};
 protected:
 	using Super = UObject;
@@ -31,24 +32,27 @@ protected:
 	UObject(){
 		_ID = SetID;
 	};
+public :
 	inline OwnerType GetOwner() const& noexcept {
 		return _Owner;
 	};
-	inline void SetOwner(OwnerType SetOwner)& noexcept {
+	inline void SetOwner(OwnerType SetOwner) & noexcept {
 		_Owner = std::move_if_noexcept(SetOwner);
 	};
-	
-public :
-	
+	inline IDType GetOwnerID() const& noexcept {
+		return _OwnerID;
+	};
+	inline void SetOwnerID(IDType SetOwnerID) & noexcept {
+		_OwnerID = std::move_if_noexcept(SetOwnerID);
+	};
+
 	inline IDType GetID() const& noexcept{
 		return _ID;
 	}
 	inline bool operator!=(const UObject& Rhs) const & noexcept {
 		return this->_ID != Rhs._ID;
 	}
-	inline bool IsOwner()const& noexcept {
-		return _Owner.expired();
-	};
+	bool IsOwner()& noexcept;
 protected:
 	virtual ~UObject()noexcept = default;
 };

@@ -148,6 +148,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AActor.cpp" />
+    <ClCompile Include="AEnemy.cpp" />
+    <ClCompile Include="APlayer.cpp" />
     <ClCompile Include="UCollision.cpp" />
     <ClCompile Include="UMesh.cpp" />
     <ClCompile Include="UObject.cpp" />
@@ -166,6 +168,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AActor.h" />
+    <ClInclude Include="AEnemy.h" />
+    <ClInclude Include="APlayer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TypeAlias.h" />
     <ClInclude Include="UCollision.h" />

@@ -4,12 +4,28 @@
 
 bool UObject::IsOwner() & noexcept
 {
-	if (auto IsOwner = UWorld::Instance().FindObject(_OwnerID);
-		IsOwner.expired() == true) {
+	auto IsOwner = UWorld::Instance().FindObject(_OwnerID);
+	bool bOwner = IsOwner.has_value();
+
+	if (bOwner == false) {
+		return false;
+	};
+
+	auto _OwnerWeakRef = IsOwner.value();
+	
+	if (_OwnerWeakRef.expired() == true) {
 		return false;
 	}
-	else if (IsOwner.expired() == false) {
-		SetOwner(IsOwner);
-		return true;
+	else if (_OwnerWeakRef.expired() == false) {
+		SetOwner(_OwnerWeakRef);
 	};
+
+	//if (auto IsOwner = UWorld::Instance().FindObject(_OwnerID);
+	//	IsOwner.expired() == true) {
+	//	return false;
+	//}
+	//else if (IsOwner.expired() == false) {
+	//	
+	//	return true;
+	//};
 }

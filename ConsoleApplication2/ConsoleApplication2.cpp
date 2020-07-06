@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <functional>
 #include <type_traits>
+
 using namespace std;
 
 template<typename t=void>
@@ -72,22 +73,22 @@ public:
 template <class _Callable, class... _Args>
 using invoke_result_t = typename _Invoke_traits<void, _Callable, _Args...>::type;
 
+
+class temp {
+public:
+	float foo() {
+		return 1.f;
+	}
+};
 int main()
 {
+	temp _t;
 
-	std::shared_ptr<q> s= std::make_shared<q>(5);
+	//decltype(std::declval<temp>().foo()) qwe;
+	decltype(_t.foo()) qwe;
 
-	std::shared_ptr<q> d = s;
-	auto c = d;
-
-	auto dd = new q(1);
-
-	
-	d->foo();
-	c->foo();
-
-	
-
+	qwe = 2.f;
+	std::cout << qwe;
 
 }
 

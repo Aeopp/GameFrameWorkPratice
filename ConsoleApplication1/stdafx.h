@@ -12,6 +12,7 @@
 #include <set>
 #include <map>
 #include <functional>
+#include <optional>
 
 
 #define TypePrint        TypePrint_Implementation(decltype(*this),this->_ID);

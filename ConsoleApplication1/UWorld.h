@@ -3,12 +3,10 @@
 #include "UObject.h"
 
 // SingleTon Type UWorld 
-
 class UWorld
 {	
 public:
 	using ObjectIDType = uint32_t;
-
 private:
 	using _ObjectType = std::shared_ptr<class UObject>;
 	template<typename ObjectType>
@@ -19,15 +17,15 @@ public:
 	void Frame();
 	void Collision();
 public:
-	std::vector<std::shared_ptr<class UObject>> _Objects;
+	std::vector<std::shared_ptr<class UObject>> _ObjectList;
 
-	std::vector<std::weak_ptr<class UCollision>> _Collisions;
-	std::vector<std::weak_ptr<class AActor>> _Actors;
-	std::multiset<std::weak_ptr<class UMesh>> _Meshs;
+	std::vector<std::weak_ptr<class UCollision>> _CollisionList;
+	std::vector<std::weak_ptr<class AActor>> _ActorList;
+	std::multiset<std::weak_ptr<class UMesh>> _MeshList;
 
 	std::set<ObjectIDType> _GarBageIDs;
 public:
-	std::weak_ptr<class UObject> FindObject(const ObjectIDType TargetID);
+	std::optional<std::weak_ptr<class UObject>> FindObject(const ObjectIDType TargetID);
 
 	template<typename _MakeUObjectType,typename ...Types>
 	[[nodiscard]]  _ObjectObserverType<_MakeUObjectType> Create(Types&&... Params) {
@@ -35,16 +33,16 @@ public:
 			new _MakeUObjectType(
 				std::forward<Types>(Params)...));
 
-		_Objects.push_back(_AddObject);
+		_ObjectList.push_back(_AddObject);
 		
-		if constexpr (std::is_same_v< _MakeUObjectType, decltype(_Actors)::value_type::element_type>) {
-			_Actors.push_back(_AddObject);
+		if constexpr (std::is_same_v< _MakeUObjectType, decltype(_ActorList)::value_type::element_type>) {
+			_ActorList.push_back(_AddObject);
 		}
-		else if constexpr (std::is_same_v< _MakeUObjectType, decltype(_Collisions)::value_type::element_type>) {
-			_Collisions.push_back(_AddObject);
+		else if constexpr (std::is_same_v< _MakeUObjectType, decltype(_CollisionList)::value_type::element_type>) {
+			_CollisionList.push_back(_AddObject);
 		}
-		else if constexpr (std::is_same_v< _MakeUObjectType, decltype(_Meshs)::value_type::element_type>) {
-			_Meshs.insert(_AddObject);
+		else if constexpr (std::is_same_v< _MakeUObjectType, decltype(_MeshList)::value_type::element_type>) {
+			_MeshList.insert(_AddObject);
 		}
 
 		return _ObjectObserverType<_MakeUObjectType>{ _AddObject };
@@ -69,39 +67,46 @@ public:
 private:
 	template<typename ObjectContainType,typename CallFuncType>
 	void ObjectLogic(ObjectContainType& Container, CallFuncType Func) {
+		using ObjectType = typename ObjectContainType::value_type::element_type;
+
 		auto MemberFunction = std::mem_fn(Func);
-		for (auto _Object = std::begin(Container); _Object != std::end(Container);) {
-			if (auto _ObjectRef = _Object->lock();
-				_Object->expired() == false) {
+		for (auto _Object_Iter = std::begin(Container); _Object_Iter != std::end(Container);) {
+			if (auto _ObjectRef = _Object_Iter->lock();
+				_Object_Iter->expired() == false) {
 				bool bOwner = _ObjectRef->IsOwner();
 				if (bOwner) {
 					MemberFunction(*_ObjectRef);
 				}
 				else if (!bOwner) {
-					GarbageObjectErase(Container,_Object);
+					const decltype(std::declval<ObjectType>().GetID()) _ObjectID = _ObjectRef->GetID();
+					_Object_Iter = Container.erase(_Object_Iter);
+					DeleteObj(_ObjectID);
+					continue;
 				}
 			}
-			else if (_Object->expired() == true) {
-				_Object = Container.erase(_Object);
+			else if (_Object_Iter->expired() == true) {
+				_Object_Iter = Container.erase(_Object_Iter);
 				continue;
 			}
-			std::advance(_Object, 1);
+			std::advance(_Object_Iter, 1);
 		};
 	}
 
 private:
 	void ActorLogic();
-	template<typename ObjectContainType, typename ObjectType>
-	void GarbageObjectErase(ObjectContainType& Container,ObjectType& Object)
-	{
-		// 여기서 weak_ptr 포인터의 자료구조에서 타겟을 지우고
-		// 오브젝트 shared_ptr 포인터 자료구조에서도 타겟을 지워야한다.
 
-		Container.erase(Object.lock());
-		ObjectIDType TargetID = Object.lock()->GetID();
+	//template<typename ObjectContainType, typename ObjectType>
+	//[[deprecated]]
+	//void GarbageObjectErase(ObjectContainType& Container,ObjectType& Object)
+	//{
+	//	// 여기서 weak_ptr 포인터의 자료구조에서 타겟을 지우고
+	//	// 오브젝트 shared_ptr 포인터 자료구조에서도 타겟을 지워야한다.
 
-		std::erase_if(Container, [TargetID](decltype(_Objects)::value_type& Target) {
-			return Target->GetID() == TargetID;
-			});
-	};
+	//	Container.erase(Object);
+	//	ObjectIDType TargetID = Object.lock()->GetID();
+
+	//	std::erase_if(Container, [TargetID](decltype(_Objects)::value_type& Target) {
+	//		return Target->GetID() == TargetID;
+	//		});
+	//};
 };

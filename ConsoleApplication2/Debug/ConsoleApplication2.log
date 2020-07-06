@@ -1,4 +1,2 @@
 ﻿  ConsoleApplication2.cpp
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\type_traits(1747,77): error C2794: 'type': 직접 또는 간접 기본 클래스 'std::_Invoke_traits<void,void (__thiscall asd::* )(void)>'의 멤버가 아닙니다.
-D:\GameFrameWorkPratice\ConsoleApplication2\ConsoleApplication2.cpp(89): message : 컴파일되는 별칭 템플릿 인스턴스화 'std::invoke_result_t<void(__thiscall asd::* )(void),>'에 대한 참조를 확인하세요.
-D:\GameFrameWorkPratice\ConsoleApplication2\ConsoleApplication2.cpp(89,42): error C2938: 'std::invoke_result_t': 별칭 템플릿을 특수화하지 못했습니다.
+  ConsoleApplication2.vcxproj -> D:\GameFrameWorkPratice\ConsoleApplication2\Debug\ConsoleApplication2.exe

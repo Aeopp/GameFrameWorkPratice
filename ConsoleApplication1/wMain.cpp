@@ -18,7 +18,7 @@ int main() {
 		//Compute Time.............
 		std::this_thread::sleep_for(1s);
 		
-		if (i == 0) {
+		if (i == 2) {
 			WORLD.DeleteObj(Player.lock()->GetID());
 		}
 	};
